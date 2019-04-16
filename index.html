@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/blog/">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Bootstrap core CSS -->
+	<!-- <link href="/docs/4.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+</head>
+<body>
+	<h1>This is a web api demo application.</h1>
+    <div id="display"></div>
+
+
+<script type="text/javascript">
+	document.onreadystatechange = function () {
+    if (document.readyState == "interactive") {
+        getAPI();
+    }
+}
+	// document.body.addEventListener('onload', getAPI);
+	function getAPI(){
+		var websiteurl = 'https://newsapi.org/v2/everything?domains=wsj.com&' +
+          'apiKey=cc57c4ca70c949f7aedce8a1a648dac0';
+		var request = new Request(websiteurl);
+
+		fetch(request)
+		    .then(function(response) {
+		        return response.json();
+		    })
+		    .then((data) => {
+		    	let articles = data.articles;
+		    	let thing = '';
+		    	articles.forEach(function(i,v){
+	    			thing = thing+`<div class="container">
+									<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+							        <div class="col-8 p-4 d-flex flex-column position-static">
+							          <strong class="d-inline-block mb-2 text-primary">`+ i.author+`</strong>
+							          <h3 class="mb-0">`+ i.title +`</h3>
+							          <div class="mb-1 text-muted">`+ i.publishedAt +` at `+ i.source.name + `</div>
+							          <p class="card-text mb-auto">`+ i.description+`</p>
+							          <a href="`+ i.url+`" class="stretched-link">Continue reading</a>
+							        </div>
+							        <div class="col-4 d-none d-lg-block">
+							          <img src="`+ i.urlToImage +`" class="img-fluid img-thumbnail">
+							        </div>
+							        </div>
+						        </div>`;
+
+		    	});
+		    		document.getElementById('display').innerHTML = thing;
+		    });
+           
+        }
+</script>
+</body>
+</html>
